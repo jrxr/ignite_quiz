@@ -1,4 +1,5 @@
 import { View } from "react-native";
+import Animated, { BounceIn } from "react-native-reanimated";
 import {
   Canvas,
   Easing,
@@ -133,7 +134,9 @@ export function Stars() {
         />
       </Canvas>
 
-      <TrophySvg />
+      <Animated.View entering={BounceIn}>
+        <TrophySvg /> 
+      </Animated.View>
     </View>
   );
 }
