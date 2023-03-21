@@ -11,7 +11,7 @@ import Animated, {
   Extrapolate,
   Easing,
   useAnimatedScrollHandler,
-  event,
+  runOnJS,
 } from "react-native-reanimated";
 import { GestureDetector, Gesture } from "react-native-gesture-handler";
 
@@ -35,6 +35,7 @@ interface Params {
 type QuizProps = typeof QUIZ[0];
 
 const CARD_INCLINATION = 10;
+const CARD_SKIP_AREA = -200;
 
 export function Quiz() {
   const [points, setPoints] = useState(0);
@@ -179,7 +180,10 @@ export function Quiz() {
         cardPosition.value = event.translationX;
       }
     })
-    .onEnd(() => {
+    .onEnd((event) => {
+      if (event.translationX < CARD_SKIP_AREA) {
+        runOnJS(handleSkipConfirm)();
+      }
       cardPosition.value = withTiming(0);
     });
 
